@@ -1,8 +1,24 @@
 from flask import Flask, request, jsonify, render_template
 from google.cloud import vision
+import os
+import json
+import base64
 
 app = Flask(__name__)
-client = vision.ImageAnnotatorClient()
+
+def get_client():
+    # Get Base64 encoded credentials from environment variable
+    base64_credentials = os.getenv('GOOGLE_CREDENTIALS_BASE64')
+    if not base64_credentials:
+        raise ValueError('Environment variable GOOGLE_CREDENTIALS_BASE64 not set')
+
+    # Decode the Base64 credentials
+    credentials_json = base64.b64decode(base64_credentials).decode('utf-8')
+
+    # Create a client with the credentials
+    return vision.ImageAnnotatorClient.from_service_account_info(json.loads(credentials_json))
+
+client = get_client()
 
 @app.route('/')
 def index():
@@ -26,4 +42,4 @@ def detect():
     return jsonify({'dishes': dish_names})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
