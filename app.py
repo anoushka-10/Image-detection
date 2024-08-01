@@ -1,8 +1,36 @@
+import streamlit as st
+import os
+import json
 from flask import Flask, request, jsonify, render_template
 from google.cloud import vision
+from google.oauth2 import service_account
 
 app = Flask(__name__)
-client = vision.ImageAnnotatorClient()
+
+# Load credentials from Streamlit secrets
+def get_vision_client():
+    secrets = st.secrets["GOOGLE_APPLICATION_CREDENTIALS"]
+    
+    # Convert TOML values to dictionary
+    credentials_info = {
+        "type": secrets["type"],
+        "project_id": secrets["project_id"],
+        "private_key_id": secrets["private_key_id"],
+        "private_key": secrets["private_key"].replace("\\n", "\n"),
+        "client_email": secrets["client_email"],
+        "client_id": secrets["client_id"],
+        "auth_uri": secrets["auth_uri"],
+        "token_uri": secrets["token_uri"],
+        "auth_provider_x509_cert_url": secrets["auth_provider_x509_cert_url"],
+        "client_x509_cert_url": secrets["client_x509_cert_url"],
+        "universe_domain": secrets["universe_domain"]
+    }
+    
+    credentials = service_account.Credentials.from_service_account_info(credentials_info)
+    client = vision.ImageAnnotatorClient(credentials=credentials)
+    return client
+
+client = get_vision_client()
 
 @app.route('/')
 def index():
@@ -27,4 +55,3 @@ def detect():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
