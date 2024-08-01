@@ -17,7 +17,8 @@ def load_credentials():
         "auth_uri": os.getenv('GOOGLE_AUTH_URI'),
         "token_uri": os.getenv('GOOGLE_TOKEN_URI'),
         "auth_provider_x509_cert_url": os.getenv('GOOGLE_AUTH_PROVIDER_X509_CERT_URL'),
-        "client_x509_cert_url": os.getenv('GOOGLE_CLIENT_X509_CERT_URL')
+        "client_x509_cert_url": os.getenv('GOOGLE_CLIENT_X509_CERT_URL'),
+        "universe_domains":os.getenv('GOOGLE_DOMAIN')
     }
 
 @app.route('/')
