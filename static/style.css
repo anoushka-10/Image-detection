@@ -1,0 +1,44 @@
+.hero {
+    background-image: url('path_to_your_hero_image.jpg'); /* Add your hero image here */
+    background-size: cover;
+    background-position: center;
+    padding-top: 120px;
+    padding-bottom: 120px;
+}
+
+.hero .display-4 {
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.hero-content{
+padding-top: 50px;
+}
+
+.about, .upload {
+    padding: 60px 0;
+}
+
+.about h2, .upload h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+.custom-file-label::after {
+    content: "Browse";
+}
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+}
+
+.footer .list-inline-item a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer .list-inline-item a:hover {
+    text-decoration: underline;
+}
